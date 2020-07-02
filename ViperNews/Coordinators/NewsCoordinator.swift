@@ -28,7 +28,7 @@ final class NewsCoordinator: NavigationCoordinator {
     }
 
     private func showContent() {
-        let vc = ViewController()
+        let vc = NewsViewController()
         show(vc)
     }
 }

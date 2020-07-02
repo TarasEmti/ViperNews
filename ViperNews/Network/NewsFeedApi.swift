@@ -14,7 +14,6 @@ protocol NewsFeedSourceProvidable {
 }
 
 protocol PresenterToInteractorProtocol {}
-protocol InteractorToPresenterProtocol {}
 
 final class NewsInteractor {
 
@@ -22,16 +21,15 @@ final class NewsInteractor {
 
     private let sources: [NewsFeedSourceProtocol]
 
-    private var unsortedNewsBag: [NewsItem] = []
-
     init(source: NewsFeedSourceProvidable) {
         self.sources = source.enabledFeedSources()
     }
 
-    func retrieveNews(feedCompletion: @escaping ([NewsItem]) -> Void) {
+    func retrieveNews() {
 
-        unsortedNewsBag = []
+        var unsortedNews = [NewsItem]()
 
+        var failedSources = [NewsFeedSourceProtocol]()
         let queue = DispatchQueue(label: "com.load.news", qos: .background, attributes: .concurrent)
         let group = DispatchGroup()
 
@@ -41,15 +39,23 @@ final class NewsInteractor {
             queue.async(group: group) {
                 group.enter()
 
-                loader.loadFeed { [unowned self] (news) in
-                    self.unsortedNewsBag.append(contentsOf: news)
+                loader.loadFeed { (news, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        failedSources.append(loader.source)
+                    } else if let news = news, !news.isEmpty {
+                        unsortedNews.append(contentsOf: news)
+                    }
                     group.leave()
                 }
             }
         }
 
         group.notify(queue: .main) { [unowned self] in
-            feedCompletion(self.unsortedNewsBag)
+            self.presenter?.newsFetchSuccess(unsortedNews: unsortedNews)
+            if !failedSources.isEmpty {
+                self.presenter?.newsFetchFail(sources: failedSources)
+            }
         }
     }
 }
@@ -57,15 +63,17 @@ final class NewsInteractor {
 extension NewsInteractor {
     private final class NewsLoader {
 
+        let source: NewsFeedSourceProtocol
         private let sourceUrl: URL
 
         init(source: NewsFeedSourceProtocol) {
+            self.source = source
             sourceUrl = URL(string: source.feedUrl)!
         }
 
-        func loadFeed(completion: @escaping ([NewsItem]) -> Void) {
+        func loadFeed(completion: @escaping ([NewsItem]?, Error?) -> Void) {
             // Api Request magic
-            completion([])
+            completion([], nil)
         }
     }
 }
