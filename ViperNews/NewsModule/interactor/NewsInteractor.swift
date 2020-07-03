@@ -76,4 +76,8 @@ extension NewsInteractor: PresenterToInteractorProtocol {
             }
         }
     }
+
+    func update(newsItem: NewsItem) {
+        storeProvider.save(news: [newsItem])
+    }
 }

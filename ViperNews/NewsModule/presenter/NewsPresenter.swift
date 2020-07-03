@@ -52,4 +52,8 @@ extension NewsPresenter: ViewToPresenterProtocol {
     func showSettings() {
         router?.showSettings()
     }
+
+    func update(newsItem: NewsItem) {
+        interactor?.update(newsItem: newsItem)
+    }
 }

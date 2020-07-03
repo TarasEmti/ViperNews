@@ -16,4 +16,5 @@ protocol ViewToPresenterProtocol {
 
     func fetchNews()
     func showSettings()
+    func update(newsItem: NewsItem)
 }

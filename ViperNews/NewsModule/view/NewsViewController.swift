@@ -99,10 +99,20 @@ extension NewsViewController: UITableViewDataSource {
 extension NewsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let cell = tableView.cellForRow(at: indexPath) as? CellDetailsStateSupportable else {
+
+        var newsItem = newsArray[indexPath.row]
+        if newsItem.isUnread {
+            newsItem.isUnread = false
+            presenter?.update(newsItem: newsItem)
+        }
+        newsArray[indexPath.row] = newsItem
+
+        guard let cell = tableView.cellForRow(at: indexPath) as? NewsTableViewCell else {
             return
         }
+        cell.fill(with: newsItem)
         cell.isExpanded = !cell.isExpanded
 
         tableView.beginUpdates()
@@ -156,6 +166,8 @@ extension NewsViewController {
             let label = UILabel()
             label.font = .italicSystemFont(ofSize: 14)
             label.textColor = .gray
+            label.numberOfLines = 0
+            label.textAlignment = .right
 
             return label
         }()
@@ -178,7 +190,10 @@ extension NewsViewController {
             newsImageView.image = entity.image ?? UIImage(named: "image_placeholder")
             newsTitleLabel.text = entity.title
             newsDetailsLabel.text = entity.details
-            dateLabel.text = "\(entity.sourceName) - \(entity.date.toNewsDateFormat())"
+            dateLabel.text = "\(entity.sourceName)\n\(entity.date.toNewsDateFormat())"
+            if !entity.isUnread {
+                dateLabel.text?.append(" 👁")
+            }
         }
 
         override func layoutSubviews() {
@@ -230,10 +245,17 @@ extension NewsViewController {
             layoutIfNeeded()
 
             return CGSize(width: size.width,
-                          height: dateLabel.frame.maxY + LayoutConstants.vOffset)
+                          height: dateLabel.frame.maxY + LayoutConstants.smallOffset)
         }
 
         var isExpanded: Bool = false
+
+        override func prepareForReuse() {
+            imageView?.image = nil
+            newsTitleLabel.text = nil
+            newsDetailsLabel.text = nil
+            dateLabel.text = nil
+        }
     }
 }
 

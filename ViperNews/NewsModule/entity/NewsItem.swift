@@ -16,4 +16,5 @@ struct NewsItem {
     let sourceName: String
     let sourceUrl: URL
     let date: Date
+    var isUnread: Bool
 }

@@ -81,7 +81,8 @@ extension NewsLoader {
                                     details: details,
                                     sourceName: source,
                                     sourceUrl: sourceUrl,
-                                    date: date)
+                                    date: date,
+                                    isUnread: true)
 
                 return item
             }
