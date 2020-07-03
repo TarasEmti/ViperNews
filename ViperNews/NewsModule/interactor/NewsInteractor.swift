@@ -49,8 +49,9 @@ final class NewsInteractor {
 
         let loaders: [NewsLoader] = sources.map { NewsLoader(source: $0) }
 
-        loaders.forEach { (loader) in
-            queue.async(group: group) {
+        queue.async(group: group) {
+
+            loaders.forEach { (loader) in
                 group.enter()
 
                 loader.loadFeed { (news, error) in
@@ -65,7 +66,8 @@ final class NewsInteractor {
             }
         }
 
-        group.notify(queue: .main) { [unowned self] in
+        group.notify(queue: .main) { [weak self] in
+            guard let self = self else { fatalError("Ineractor deinited") }
             self.presenter?.newsFetchSuccess(unsortedNews: unsortedNews)
             if !failedSources.isEmpty {
                 self.presenter?.newsFetchFail(sources: failedSources)

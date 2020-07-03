@@ -20,7 +20,12 @@ final class NewsPresenter {
 extension NewsPresenter: InteractorToPresenterProtocol {
 
     func newsFetchSuccess(unsortedNews: [NewsItem]) {
-        let sortedNews = unsortedNews.sorted(by: {$0.date < $1.date})
+        let sortedNews: [NewsItem]
+        if unsortedNews.count > 1 {
+            sortedNews = unsortedNews.sorted(by: {$0.date < $1.date})
+        } else {
+            sortedNews = unsortedNews
+        }
         view?.show(news: sortedNews)
     }
 
