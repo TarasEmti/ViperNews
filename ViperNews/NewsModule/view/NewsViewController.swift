@@ -22,6 +22,7 @@ final class NewsViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 60
         tableView.dataSource = self
+        tableView.delegate = self
 
         return tableView
     }()
@@ -95,13 +96,32 @@ extension NewsViewController: UITableViewDataSource {
     }
 }
 
+extension NewsViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard let cell = tableView.cellForRow(at: indexPath) as? CellDetailsStateSupportable else {
+            return
+        }
+        cell.isExpanded = !cell.isExpanded
+
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+}
+
+protocol CellDetailsStateSupportable: class {
+    var isExpanded: Bool { get set }
+}
+
 extension NewsViewController {
 
-    private final class NewsTableViewCell: UITableViewCell {
+    private final class NewsTableViewCell: UITableViewCell, CellDetailsStateSupportable {
 
         private enum LayoutConstants {
             static let imageSide: CGFloat = 40
             static let vOffset: CGFloat = 20
+            static let smallOffset: CGFloat = 8
         }
 
         private lazy var newsImageView: UIImageView = {
@@ -123,6 +143,15 @@ extension NewsViewController {
             return label
         }()
 
+        private lazy var newsDetailsLabel: UILabel = {
+            let label = UILabel()
+            label.font = .systemFont(ofSize: 16)
+            label.textColor = .darkGray
+            label.numberOfLines = 0
+
+            return label
+        }()
+
         private lazy var dateLabel: UILabel = {
             let label = UILabel()
             label.font = .italicSystemFont(ofSize: 14)
@@ -136,6 +165,7 @@ extension NewsViewController {
 
             contentView.addSubview(newsImageView)
             contentView.addSubview(newsTitleLabel)
+            contentView.addSubview(newsDetailsLabel)
             contentView.addSubview(dateLabel)
         }
 
@@ -147,10 +177,12 @@ extension NewsViewController {
         func fill(with entity: NewsItem) {
             newsImageView.image = entity.image
             newsTitleLabel.text = entity.title
+            newsDetailsLabel.text = entity.details
             dateLabel.text = "Date: \(entity.date.toNewsDateFormat())"
         }
 
         override func layoutSubviews() {
+            super.layoutSubviews()
 
             let xOffset: CGFloat = layoutMargins.left
 
@@ -170,10 +202,25 @@ extension NewsViewController {
                                           height: titleSize.height)
 
             let sourceHeight = dateLabel.sizeThatFits(labelsCalcSize).height
+            var sourceLabelY = newsImageView.frame.maxY - sourceHeight
+
+            if isExpanded {
+                newsDetailsLabel.isHidden = false
+                let detailsSize = newsDetailsLabel.sizeThatFits(labelsCalcSize)
+                newsDetailsLabel.frame = CGRect(x: newsTitleLabel.frame.minX,
+                                                y: newsTitleLabel.frame.maxY + LayoutConstants.smallOffset,
+                                                width: labelsWidh,
+                                                height: detailsSize.height)
+
+                sourceLabelY = newsDetailsLabel.frame.maxY + LayoutConstants.smallOffset
+            } else {
+                newsDetailsLabel.isHidden = true
+            }
+
             dateLabel.frame = CGRect(x: newsTitleLabel.frame.minX,
-                                       y: newsImageView.frame.maxY - sourceHeight,
-                                       width: labelsWidh,
-                                       height: sourceHeight)
+                                     y: sourceLabelY,
+                                     width: labelsWidh,
+                                     height: sourceHeight)
         }
 
         override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -182,8 +229,10 @@ extension NewsViewController {
             layoutIfNeeded()
 
             return CGSize(width: size.width,
-                          height: newsImageView.frame.maxY + LayoutConstants.vOffset)
+                          height: dateLabel.frame.maxY + LayoutConstants.vOffset)
         }
+
+        var isExpanded: Bool = false
     }
 }
 
