@@ -9,7 +9,7 @@
 import Foundation
 
 protocol SettigsService: class {
-    var feedUpdateTime: Float { get set }
+    var feedUpdateTime: Double { get set }
 }
 
 final class SettingsServiceImpl: SettigsService {
@@ -28,9 +28,9 @@ final class SettingsServiceImpl: SettigsService {
         self.userDefaults = userDefaults
     }
 
-    var feedUpdateTime: Float {
+    var feedUpdateTime: Double {
         get {
-            return userDefaults.float(forKey: UserKeys.feedUpdateTime)
+            return userDefaults.double(forKey: UserKeys.feedUpdateTime)
         }
         set {
             userDefaults.set(newValue, forKey: UserKeys.feedUpdateTime)

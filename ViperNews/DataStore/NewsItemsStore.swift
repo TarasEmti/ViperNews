@@ -95,7 +95,9 @@ extension NewsItemsStore: NewsItemsStoreProvider {
         }
 
         do {
-            try privateContext.save()
+            if privateContext.hasChanges {
+                try privateContext.save()
+            }
         } catch {
             print(error)
         }

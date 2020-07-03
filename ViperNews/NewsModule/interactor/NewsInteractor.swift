@@ -14,10 +14,22 @@ final class NewsInteractor {
 
     private let storeProvider: NewsItemsStoreProvider
     private let sourcesProvider: NewsFeedSourceProvidable
+    private let settings = SettingsServiceImpl.shared()
+
+    private var timer: Timer?
 
     init(source: NewsFeedSourceProvidable = NewsSourcesProvider()) {
         self.sourcesProvider = source
         self.storeProvider = NewsItemsStore()
+
+        setTimer()
+    }
+
+    private func setTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: settings.feedUpdateTime,
+                                         repeats: true) { [weak self] (_) in
+            self?.loadNews()
+        }
     }
 
     private func loadNews() {
@@ -51,8 +63,8 @@ final class NewsInteractor {
         group.notify(queue: .main) { [weak self] in
             guard let self = self else { fatalError("NewsInteractor deinited") }
 
-            self.presenter?.newsFetchSuccess(unsortedNews: unsortedNews)
             self.saveToStore(news: unsortedNews)
+            self.fetchNews()
             if !failedSources.isEmpty {
                 self.presenter?.newsFetchFail(sources: failedSources)
             }

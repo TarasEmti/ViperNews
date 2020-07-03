@@ -255,6 +255,7 @@ extension NewsViewController {
             newsTitleLabel.text = nil
             newsDetailsLabel.text = nil
             dateLabel.text = nil
+            isExpanded = false
         }
     }
 }
