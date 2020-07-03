@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NavigationCoordinator: Coordinator<UINavigationController>, UINavigationControllerDelegate {
+final class NavigationCoordinator: Coordinator<UINavigationController>, UINavigationControllerDelegate {
     var viewControllers: [UIViewController] = []
 
     func present(_ vc: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {

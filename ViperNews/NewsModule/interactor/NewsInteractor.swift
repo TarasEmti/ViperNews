@@ -8,22 +8,6 @@
 
 import Foundation
 
-final class LocalNewsSourcesProvider: NewsFeedSourceProvidable {
-
-    private let sources: [NewsSourceLoading] = [
-        LentaNewsSource(),
-        GazetaNewsSource()
-    ]
-
-    func allFeedSources() -> [NewsSource] {
-        return sources
-    }
-
-    func enabledFeedSources() -> [NewsSourceLoading] {
-        return sources.filter { $0.isEnabled }
-    }
-}
-
 final class NewsInteractor {
 
     var presenter: InteractorToPresenterProtocol?
@@ -31,7 +15,7 @@ final class NewsInteractor {
     private let storeProvider: NewsItemsStoreProvider
     private let sourcesProvider: NewsFeedSourceProvidable
 
-    init(source: NewsFeedSourceProvidable = LocalNewsSourcesProvider()) {
+    init(source: NewsFeedSourceProvidable = NewsSourcesProvider()) {
         self.sourcesProvider = source
         self.storeProvider = NewsItemsStore()
     }

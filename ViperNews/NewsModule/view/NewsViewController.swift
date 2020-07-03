@@ -110,7 +110,7 @@ extension NewsViewController: UITableViewDelegate {
     }
 }
 
-protocol CellDetailsStateSupportable: class {
+fileprivate protocol CellDetailsStateSupportable: class {
     var isExpanded: Bool { get set }
 }
 

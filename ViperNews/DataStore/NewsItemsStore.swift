@@ -13,9 +13,10 @@ protocol NewsItemsStoreProvider {
     func save(news: [NewsItem])
 }
 
-final class NewsItemsStore: NewsItemsStoreProvider {
+final class NewsItemsStore {
 
     private var mainContext: NSManagedObjectContext!
+
     private var privateContext: NSManagedObjectContext!
 
     private lazy var persistentContainer: NSPersistentContainer = {
@@ -34,6 +35,29 @@ final class NewsItemsStore: NewsItemsStoreProvider {
         self.mainContext = persistentContainer.viewContext
         self.privateContext = persistentContainer.newBackgroundContext()
     }
+
+    private func newsItemExists(sourceUrl: URL, date: Date) -> CDNewsItem? {
+
+        let request = NSFetchRequest<CDNewsItem>(entityName: CDNewsItem.entityName)
+        request.predicate = NSPredicate(
+            format: "sourceUrl = %@ AND date = %@",
+            sourceUrl as NSURL,
+            date as NSDate
+        )
+
+        do {
+            let entity = try privateContext.fetch(request)
+
+            return entity.first
+        } catch {
+            print(error)
+        }
+
+        return nil
+    }
+}
+
+extension NewsItemsStore: NewsItemsStoreProvider {
 
     func fetchNews(enabledSources: [NewsSource], completion: @escaping ([NewsItem]) -> Void) {
 
@@ -75,58 +99,5 @@ final class NewsItemsStore: NewsItemsStoreProvider {
         } catch {
             print(error)
         }
-    }
-
-    private func newsItemExists(sourceUrl: URL, date: Date) -> CDNewsItem? {
-
-        let request = NSFetchRequest<CDNewsItem>(entityName: CDNewsItem.entityName)
-        request.predicate = NSPredicate(
-            format: "sourceUrl = %@ AND date = %@",
-            sourceUrl as NSURL,
-            date as NSDate
-        )
-
-        do {
-            let entity = try privateContext.fetch(request)
-
-            return entity.first
-        } catch {
-            print(error)
-        }
-
-        return nil
-    }
-}
-
-import UIKit
-
-private extension CDNewsItem {
-    static let entityName = String(describing: CDNewsItem.self)
-
-    func toNewsItem() -> NewsItem {
-
-        var image: UIImage?
-        if let data = self.image {
-            image = UIImage(data: data)
-        }
-
-        return NewsItem(image: image,
-                        imageUrl: imageUrl,
-                        title: title!,
-                        details: details!,
-                        sourceName: sourceName!,
-                        sourceUrl: sourceUrl!,
-                        date: date!)
-    }
-
-    func fill(with item: NewsItem) {
-        image = item.image?.pngData()
-        imageUrl = item.imageUrl
-        isUnread = false
-        title = item.title
-        details = item.details
-        sourceName = item.sourceName
-        sourceUrl = item.sourceUrl
-        date = item.date
     }
 }

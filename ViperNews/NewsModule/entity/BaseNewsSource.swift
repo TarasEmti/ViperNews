@@ -1,8 +1,8 @@
 //
-//  NewsFeedSource.swift
+//  BaseNewsSource.swift
 //  ViperNews
 //
-//  Created by Тарас Минин on 02/07/2020.
+//  Created by Тарас Минин on 04/07/2020.
 //  Copyright © 2020 Тарас Минин. All rights reserved.
 //
 
@@ -20,21 +20,7 @@ protocol NewsSourceLoading: NewsSource {
     var feedLoader: NewsLoading { get }
 }
 
-final class GazetaNewsSource: BaseFeedSource {
-
-    init() {
-        super.init(feedUrl: "https://www.gazeta.ru/export/rss/lenta.xml", name: "Gazeta Ru")
-    }
-}
-
-final class LentaNewsSource: BaseFeedSource {
-
-    init() {
-        super.init(feedUrl: "https://lenta.ru/rss", name: "Lenta Ru")
-    }
-}
-
-class BaseFeedSource: NSObject, NewsSourceLoading {
+class BaseNewsSource: NSObject, NewsSourceLoading {
 
     private lazy var isDisabledKey = "NewsSource.\(String(describing: type(of: self))).isDisabledKey"
 
@@ -53,7 +39,7 @@ class BaseFeedSource: NSObject, NewsSourceLoading {
         super.init()
     }
 
-    @objc var isEnabled: Bool {
+    var isEnabled: Bool {
         get {
             return !userDefaults.bool(forKey: isDisabledKey)
         }

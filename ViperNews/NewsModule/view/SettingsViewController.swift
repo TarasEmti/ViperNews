@@ -19,7 +19,7 @@ final class SettingsViewController: UIViewController {
         return tableView
     }()
 
-    private let newsSources: NewsFeedSourceProvidable = LocalNewsSourcesProvider()
+    private let newsSources: NewsFeedSourceProvidable = NewsSourcesProvider()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,17 +74,5 @@ extension SettingsViewController: UITableViewDataSource {
         }
 
         return cell
-    }
-}
-
-extension SettingsViewController {
-    private final class SourceSwitchCell: UITableViewCell {
-
-    }
-}
-
-extension SettingsViewController {
-    private final class DisclosureCell: UITableViewCell {
-
     }
 }
