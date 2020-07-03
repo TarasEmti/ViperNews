@@ -6,13 +6,7 @@
         <attribute name="isUnread" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="CDNewsSource" representedClassName="CDNewsSource" syncable="YES" codeGenerationType="class">
-        <attribute name="feedUrl" attributeType="String"/>
-        <attribute name="isEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="name" attributeType="String"/>
-    </entity>
     <elements>
         <element name="CDNewsItem" positionX="-63" positionY="-18" width="128" height="103"/>
-        <element name="CDNewsSource" positionX="-45" positionY="27" width="128" height="88"/>
     </elements>
 </model>

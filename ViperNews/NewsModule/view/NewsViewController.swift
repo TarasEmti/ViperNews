@@ -202,7 +202,8 @@ extension NewsViewController {
                                           height: titleSize.height)
 
             let sourceHeight = dateLabel.sizeThatFits(labelsCalcSize).height
-            var sourceLabelY = newsImageView.frame.maxY - sourceHeight
+            var sourceLabelY = max(newsImageView.frame.maxY - sourceHeight,
+                                   newsTitleLabel.frame.maxY + LayoutConstants.smallOffset)
 
             if isExpanded {
                 newsDetailsLabel.isHidden = false

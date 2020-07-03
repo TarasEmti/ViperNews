@@ -11,13 +11,8 @@ import Foundation
 final class LocalNewsSourcesProvider: NewsFeedSourceProvidable {
 
     private let sources: [NewsSource] = [
-        NewsSource(name: "Lenta RU",
-                   feedUrl: "http://lenta.ru/rss",
-                   isEnabled: true),
-
-        NewsSource(name: "Gazeta RU",
-                   feedUrl: "http://www.gazeta.ru/export/rss/lenta.xml",
-                   isEnabled: true)
+        LentaNewsSource(),
+        GazetaNewsSource()
     ]
 
     func allFeedSources() -> [NewsSource] {
@@ -47,17 +42,17 @@ final class NewsInteractor {
         let queue = DispatchQueue(label: "com.load.news", qos: .background, attributes: .concurrent)
         let group = DispatchGroup()
 
-        let loaders: [NewsLoader] = sources.map { NewsLoader(source: $0) }
+        queue.async(group: group) { [weak self] in
 
-        queue.async(group: group) {
+            guard let self = self else { fatalError("NewsInteractor deinited") }
 
-            loaders.forEach { (loader) in
+            self.sources.forEach { (source) in
                 group.enter()
 
-                loader.loadFeed { (news, error) in
+                source.feedLoader.loadFeed { (news, error) in
                     if let error = error {
                         print(error.localizedDescription)
-                        failedSources.append(loader.source)
+                        failedSources.append(source)
                     } else if let news = news, !news.isEmpty {
                         unsortedNews.append(contentsOf: news)
                     }
@@ -80,32 +75,5 @@ extension NewsInteractor: PresenterToInteractorProtocol {
 
     func fetchNews() {
         loadNews()
-    }
-}
-
-extension NewsInteractor {
-
-    private final class NewsLoader {
-
-        private let sourceUrl: URL
-
-        let source: NewsSource
-
-        init(source: NewsSource) {
-            self.source = source
-            sourceUrl = URL(string: source.feedUrl)!
-        }
-
-        func loadFeed(completion: @escaping ([NewsItem]?, Error?) -> Void) {
-            // Api Request magic
-
-            let item = NewsItem(image: nil,
-                                title: "Lalaland is on danger",
-                                details: "Lorem ipsum",
-                                source: source.name,
-                                date: Date())
-
-            completion([item], nil)
-        }
     }
 }
