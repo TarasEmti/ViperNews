@@ -24,7 +24,7 @@ final class GazetaNewsSource: NewsSource {
 
     let name = "Gazeta RU"
 
-    let feedUrl = "http://www.gazeta.ru/export/rss/lenta.xml"
+    let feedUrl = "https://www.gazeta.ru/export/rss/lenta.xml"
 
     var isEnabled: Bool = true
 
@@ -63,15 +63,16 @@ fileprivate class NewsLoader: NewsLoading {
 
     func loadFeed(completion: @escaping ([NewsItem]?, Error?) -> Void) {
 
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) { (data, _, error) in
 
             if let data = data {
                 let rssParser = RssParser(data: data, sourceName: "LOLO")
                 rssParser.parseFeed { (items) in
                     completion(items, error)
                 }
+            } else if let error = error {
+                completion(nil, error)
             }
-            print(data, response, error)
         }
 
         task.resume()
@@ -99,20 +100,22 @@ extension NewsLoader {
             var title: String = ""
             var details: String = ""
             var date: String = ""
+            var imageUrl: String = ""
 
             func toNewsItem(source: String) -> NewsItem? {
                 guard
                     !title.isEmpty,
-                    !details.isEmpty else {
+                    !details.isEmpty,
+                    let date = Date.fromRssDateString(dateString: date) else {
 
                     return nil
                 }
 
-                let item = NewsItem(image: nil,
+                let item = NewsItem(imageUrl: URL(string: imageUrl),
                                     title: title,
                                     details: details,
                                     source: source,
-                                    date: Date())
+                                    date: date)
 
                 return item
             }
@@ -135,13 +138,16 @@ extension NewsLoader {
         }
 
         func parser(_ parser: XMLParser, foundCharacters string: String) {
+
             switch currentElement {
             case "title":
                 currentItem?.title += string.trimmingCharacters(in: .whitespacesAndNewlines)
             case "description":
                 currentItem?.details += string.trimmingCharacters(in: .whitespacesAndNewlines)
-            case "pubdate":
-                currentItem?.date += string.trimmingCharacters(in: .whitespacesAndNewlines)
+            case "pubDate":
+                currentItem?.date += string.trimmingCharacters(in: .newlines)
+            case "enclosure":
+                currentItem?.imageUrl += string.trimmingCharacters(in: .whitespacesAndNewlines)
             default:
                 return
             }
@@ -149,17 +155,27 @@ extension NewsLoader {
 
         func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
 
-            if elementName == "item" {
-                if let item = currentItem?.toNewsItem(source: sourceName) {
-                    items.append(item)
-                } else {
-                    print("Failed to parse \(currentItem)")
-                }
+            guard
+                elementName == "item",
+                let item = currentItem?.toNewsItem(source: sourceName) else {
+                    return
             }
+            items.append(item)
         }
 
         func parserDidEndDocument(_ parser: XMLParser) {
             parseCompletion(items)
         }
+    }
+}
+
+private extension Date {
+    static func fromRssDateString(dateString: String) -> Date? {
+
+        let df = DateFormatter()
+        df.dateFormat = "E, dd MMM yyyy HH:mm:ss Z"
+        let date = df.date(from: dateString)
+
+        return date
     }
 }

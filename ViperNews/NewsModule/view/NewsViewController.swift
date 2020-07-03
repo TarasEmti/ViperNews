@@ -175,7 +175,7 @@ extension NewsViewController {
         }
 
         func fill(with entity: NewsItem) {
-            newsImageView.image = entity.image
+            newsImageView.image = entity.image ?? UIImage(named: "image_placeholder")
             newsTitleLabel.text = entity.title
             newsDetailsLabel.text = entity.details
             dateLabel.text = "Date: \(entity.date.toNewsDateFormat())"

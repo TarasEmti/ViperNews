@@ -9,7 +9,8 @@
 import UIKit
 
 struct NewsItem {
-    let image: UIImage?
+    var image: UIImage?
+    let imageUrl: URL?
     let title: String
     let details: String
     let source: String
