@@ -10,7 +10,7 @@ import Foundation
 
 final class LocalNewsSourcesProvider: NewsFeedSourceProvidable {
 
-    private let sources: [NewsSource] = [
+    private let sources: [NewsSourceLoading] = [
         LentaNewsSource(),
         GazetaNewsSource()
     ]
@@ -19,7 +19,7 @@ final class LocalNewsSourcesProvider: NewsFeedSourceProvidable {
         return sources
     }
 
-    func enabledFeedSources() -> [NewsSource] {
+    func enabledFeedSources() -> [NewsSourceLoading] {
         return sources.filter { $0.isEnabled }
     }
 }
@@ -29,10 +29,10 @@ final class NewsInteractor {
     var presenter: InteractorToPresenterProtocol?
 
     private let storeProvider: NewsItemsStoreProvider
-    private let sources: [NewsSource]
+    private let sourcesProvider: NewsFeedSourceProvidable
 
     init(source: NewsFeedSourceProvidable = LocalNewsSourcesProvider()) {
-        self.sources = source.enabledFeedSources()
+        self.sourcesProvider = source
         self.storeProvider = NewsItemsStore()
     }
 
@@ -41,14 +41,15 @@ final class NewsInteractor {
         var unsortedNews = [NewsItem]()
 
         var failedSources = [NewsSource]()
-        let queue = DispatchQueue(label: "com.load.news", qos: .background, attributes: .concurrent)
+        let queue = DispatchQueue(label: "com.load.news",
+                                  qos: .background,
+                                  attributes: .concurrent)
         let group = DispatchGroup()
 
         queue.async(group: group) { [weak self] in
-
             guard let self = self else { fatalError("NewsInteractor deinited") }
 
-            self.sources.forEach { (source) in
+            self.sourcesProvider.enabledFeedSources().forEach { (source) in
                 group.enter()
 
                 source.feedLoader.loadFeed { (news, error) in
@@ -64,7 +65,8 @@ final class NewsInteractor {
         }
 
         group.notify(queue: .main) { [weak self] in
-            guard let self = self else { fatalError("Ineractor deinited") }
+            guard let self = self else { fatalError("NewsInteractor deinited") }
+
             self.presenter?.newsFetchSuccess(unsortedNews: unsortedNews)
             self.saveToStore(news: unsortedNews)
             if !failedSources.isEmpty {
@@ -81,7 +83,7 @@ final class NewsInteractor {
 extension NewsInteractor: PresenterToInteractorProtocol {
 
     func fetchNews() {
-        storeProvider.fetchNews(enabledSources: sources) { [weak self] (items) in
+        storeProvider.fetchNews(enabledSources: sourcesProvider.enabledFeedSources()) { [weak self] (items) in
             guard let self = self else { return }
             if items.isEmpty {
                 self.loadNews()

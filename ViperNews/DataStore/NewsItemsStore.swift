@@ -37,21 +37,29 @@ final class NewsItemsStore: NewsItemsStoreProvider {
 
     func fetchNews(enabledSources: [NewsSource], completion: @escaping ([NewsItem]) -> Void) {
 
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: CDNewsItem.entityName)
+        var news: [NewsItem] = []
 
-        do {
-            let result = try mainContext.fetch(fetchRequest) as! [CDNewsItem]
-            let news = result.map { $0.toNewsItem() }
-            completion(news)
-        } catch {
-            print(error)
+        for source in enabledSources {
+
+            let fetchRequest = NSFetchRequest<CDNewsItem>(entityName: CDNewsItem.entityName)
+            fetchRequest.predicate = NSPredicate(format: "sourceUrl = %@", source.feedUrl)
+
+            do {
+                let result = try mainContext.fetch(fetchRequest)
+                let sourceNews = result.map { $0.toNewsItem() }
+                news.append(contentsOf: sourceNews)
+            } catch {
+                print(error)
+            }
         }
+
+        completion(news)
     }
 
     func save(news: [NewsItem]) {
 
         news.forEach { (item) in
-            if let cdItem = newsItemExists(source: item.source, date: item.date) {
+            if let cdItem = newsItemExists(sourceUrl: item.sourceUrl, date: item.date) {
                 cdItem.fill(with: item)
             } else {
                 let newCdItem = NSEntityDescription.insertNewObject(
@@ -69,7 +77,23 @@ final class NewsItemsStore: NewsItemsStoreProvider {
         }
     }
 
-    private func newsItemExists(source: String, date: Date) -> CDNewsItem? {
+    private func newsItemExists(sourceUrl: URL, date: Date) -> CDNewsItem? {
+
+        let request = NSFetchRequest<CDNewsItem>(entityName: CDNewsItem.entityName)
+        request.predicate = NSPredicate(
+            format: "sourceUrl = %@ AND date = %@",
+            sourceUrl as NSURL,
+            date as NSDate
+        )
+
+        do {
+            let entity = try privateContext.fetch(request)
+
+            return entity.first
+        } catch {
+            print(error)
+        }
+
         return nil
     }
 }
@@ -90,7 +114,8 @@ private extension CDNewsItem {
                         imageUrl: imageUrl,
                         title: title!,
                         details: details!,
-                        source: source!,
+                        sourceName: sourceName!,
+                        sourceUrl: sourceUrl!,
                         date: date!)
     }
 
@@ -100,7 +125,8 @@ private extension CDNewsItem {
         isUnread = false
         title = item.title
         details = item.details
-        source = item.source
+        sourceName = item.sourceName
+        sourceUrl = item.sourceUrl
         date = item.date
     }
 }

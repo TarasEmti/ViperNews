@@ -13,6 +13,7 @@ struct NewsItem {
     let imageUrl: URL?
     let title: String
     let details: String
-    let source: String
+    let sourceName: String
+    let sourceUrl: URL
     let date: Date
 }

@@ -55,13 +55,3 @@ extension NewsCoordinator: NewsCoordinatorRouter {
 protocol NewsCoordinatorRouter {
     func showSettings()
 }
-
-final class SettingsViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = .red
-        title = "Settings"
-    }
-}

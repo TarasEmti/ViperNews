@@ -10,7 +10,7 @@ import Foundation
 
 protocol NewsFeedSourceProvidable {
     func allFeedSources() -> [NewsSource]
-    func enabledFeedSources() -> [NewsSource]
+    func enabledFeedSources() -> [NewsSourceLoading]
 }
 
 protocol PresenterToInteractorProtocol {

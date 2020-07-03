@@ -178,7 +178,7 @@ extension NewsViewController {
             newsImageView.image = entity.image ?? UIImage(named: "image_placeholder")
             newsTitleLabel.text = entity.title
             newsDetailsLabel.text = entity.details
-            dateLabel.text = "\(entity.source) - \(entity.date.toNewsDateFormat())"
+            dateLabel.text = "\(entity.sourceName) - \(entity.date.toNewsDateFormat())"
         }
 
         override func layoutSubviews() {

@@ -6,10 +6,11 @@
         <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="imageUrl" optional="YES" attributeType="URI"/>
         <attribute name="isUnread" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="source" attributeType="String"/>
+        <attribute name="sourceName" attributeType="String"/>
+        <attribute name="sourceUrl" attributeType="URI"/>
         <attribute name="title" attributeType="String"/>
     </entity>
     <elements>
-        <element name="CDNewsItem" positionX="-63" positionY="-18" width="128" height="148"/>
+        <element name="CDNewsItem" positionX="-63" positionY="-18" width="128" height="163"/>
     </elements>
 </model>
