@@ -32,7 +32,9 @@ extension CDNewsItem {
     func fill(with item: NewsItem) {
         image = item.image?.pngData()
         imageUrl = item.imageUrl
-        isUnread = item.isUnread
+        if isUnread {
+            isUnread = item.isUnread
+        }
         title = item.title
         details = item.details
         sourceName = item.sourceName
