@@ -6,4 +6,14 @@
 //  Copyright © 2020 Тарас Минин. All rights reserved.
 //
 
-protocol ViewToPresenterProtocol {}
+protocol ViewToPresenterProtocol {
+
+    var view: PresenterToViewProtocol? { get set }
+
+    var interactor: PresenterToInteractorProtocol? { get set }
+
+    var router: NewsCoordinatorRouter? { get set }
+
+    func fetchNews()
+    func showSettings()
+}

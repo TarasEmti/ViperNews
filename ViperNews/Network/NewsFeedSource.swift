@@ -6,8 +6,23 @@
 //  Copyright © 2020 Тарас Минин. All rights reserved.
 //
 
-protocol NewsFeedSourceProtocol {
-    var name: String { get }
-    var isEnabled: String { get }
-    var feedUrl: String { get }
+struct NewsSource {
+    let name: String
+    let feedUrl: String
+    let isEnabled: Bool
+}
+
+extension CDNewsSource {
+
+    func toNewsSource() -> NewsSource {
+
+        guard let name = self.name, let urlString = self.feedUrl else {
+            fatalError("NewsSource should not contain optionals")
+        }
+        let source = NewsSource(name: name,
+                                feedUrl: urlString,
+                                isEnabled: self.isEnabled)
+
+        return source
+    }
 }

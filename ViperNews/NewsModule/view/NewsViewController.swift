@@ -43,6 +43,12 @@ final class NewsViewController: UIViewController {
         navigationItem.rightBarButtonItem = settingsBarButton
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        presenter?.fetchNews()
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -51,7 +57,7 @@ final class NewsViewController: UIViewController {
 
     @objc
     private func showSettings() {
-
+        presenter?.showSettings()
     }
 }
 

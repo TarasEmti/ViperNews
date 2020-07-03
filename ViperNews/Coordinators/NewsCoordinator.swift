@@ -24,11 +24,44 @@ final class NewsCoordinator: NavigationCoordinator {
     override func start(with completion: @escaping () -> Void = {}) {
         super.start(with: completion)
 
-        showContent()
+        assembleNewsModule()
     }
 
-    private func showContent() {
-        let vc = NewsViewController()
+    private func assembleNewsModule() {
+        let view = NewsViewController()
+        let presenter = NewsPresenter()
+        let interactor = NewsInteractor()
+
+        view.presenter = presenter
+
+        presenter.view = view
+        presenter.router = self
+        presenter.interactor = interactor
+
+        interactor.presenter = presenter
+
+        show(view)
+    }
+}
+
+extension NewsCoordinator: NewsCoordinatorRouter {
+
+    func showSettings() {
+        let vc = SettingsViewController()
         show(vc)
+    }
+}
+
+protocol NewsCoordinatorRouter {
+    func showSettings()
+}
+
+final class SettingsViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.backgroundColor = .red
+        title = "Settings"
     }
 }

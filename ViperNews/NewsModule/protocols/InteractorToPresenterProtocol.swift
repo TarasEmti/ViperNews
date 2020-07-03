@@ -8,5 +8,5 @@
 
 protocol InteractorToPresenterProtocol {
     func newsFetchSuccess(unsortedNews: [NewsItem])
-    func newsFetchFail(sources: [NewsFeedSourceProtocol])
+    func newsFetchFail(sources: [NewsSource])
 }
