@@ -124,6 +124,9 @@ extension NewsLoader {
         private var currentElement = ""
         private var currentItem: UnfinishedNewsItem?
 
+        private var isInChannelElement = false
+        private var channelTitle = ""
+
         func parseFeed(completion: @escaping([NewsItem]) -> Void) {
             parseCompletion = completion
             parser.parse()
@@ -134,6 +137,8 @@ extension NewsLoader {
             currentElement = elementName
             if elementName == "item" {
                 currentItem = UnfinishedNewsItem()
+            } else if elementName == "channel" {
+                isInChannelElement = true
             }
         }
 
@@ -141,7 +146,11 @@ extension NewsLoader {
 
             switch currentElement {
             case "title":
-                currentItem?.title += string.trimmingCharacters(in: .whitespacesAndNewlines)
+                if isInChannelElement {
+                    channelTitle += string.trimmingCharacters(in: .newlines)
+                } else {
+                    currentItem?.title += string.trimmingCharacters(in: .whitespacesAndNewlines)
+                }
             case "description":
                 currentItem?.details += string.trimmingCharacters(in: .whitespacesAndNewlines)
             case "pubDate":
@@ -155,9 +164,13 @@ extension NewsLoader {
 
         func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
 
+            if elementName == "title" {
+                isInChannelElement = false
+            }
+
             guard
                 elementName == "item",
-                let item = currentItem?.toNewsItem(source: sourceName) else {
+                let item = currentItem?.toNewsItem(source: channelTitle) else {
                     return
             }
             items.append(item)

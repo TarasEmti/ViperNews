@@ -28,10 +28,12 @@ final class NewsInteractor {
 
     var presenter: InteractorToPresenterProtocol?
 
+    private let storeProvider: NewsItemsStoreProvider
     private let sources: [NewsSource]
 
     init(source: NewsFeedSourceProvidable = LocalNewsSourcesProvider()) {
         self.sources = source.enabledFeedSources()
+        self.storeProvider = NewsItemsStore()
     }
 
     private func loadNews() {
@@ -64,16 +66,28 @@ final class NewsInteractor {
         group.notify(queue: .main) { [weak self] in
             guard let self = self else { fatalError("Ineractor deinited") }
             self.presenter?.newsFetchSuccess(unsortedNews: unsortedNews)
+            self.saveToStore(news: unsortedNews)
             if !failedSources.isEmpty {
                 self.presenter?.newsFetchFail(sources: failedSources)
             }
         }
+    }
+
+    private func saveToStore(news: [NewsItem]) {
+        storeProvider.save(news: news)
     }
 }
 
 extension NewsInteractor: PresenterToInteractorProtocol {
 
     func fetchNews() {
-        loadNews()
+        storeProvider.fetchNews(enabledSources: sources) { [weak self] (items) in
+            guard let self = self else { return }
+            if items.isEmpty {
+                self.loadNews()
+            } else {
+                self.presenter?.newsFetchSuccess(unsortedNews: items)
+            }
+        }
     }
 }
