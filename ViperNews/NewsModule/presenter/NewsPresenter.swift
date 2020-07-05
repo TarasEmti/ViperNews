@@ -14,7 +14,7 @@ final class NewsPresenter {
 
     var interactor: PresenterToInteractorProtocol?
 
-    var router: NewsCoordinatorRouter?
+    weak var router: NewsCoordinatorRouter?
 }
 
 extension NewsPresenter: InteractorToPresenterProtocol {

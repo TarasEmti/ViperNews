@@ -36,6 +36,7 @@
 		764BA29924AFD48500022837 /* CustomFeedSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764BA29824AFD48500022837 /* CustomFeedSource.swift */; };
 		764BA29B24AFD5C500022837 /* NewsSourcesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764BA29A24AFD5C500022837 /* NewsSourcesProvider.swift */; };
 		764BA29D24AFD5E600022837 /* PresenterToInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764BA29C24AFD5E600022837 /* PresenterToInteractorProtocol.swift */; };
+		76F8E39224B203E3005D9426 /* UpdateTimeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F8E39124B203E3005D9426 /* UpdateTimeSettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		764BA29824AFD48500022837 /* CustomFeedSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFeedSource.swift; sourceTree = "<group>"; };
 		764BA29A24AFD5C500022837 /* NewsSourcesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsSourcesProvider.swift; sourceTree = "<group>"; };
 		764BA29C24AFD5E600022837 /* PresenterToInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterToInteractorProtocol.swift; sourceTree = "<group>"; };
+		76F8E39124B203E3005D9426 /* UpdateTimeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTimeSettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,7 +156,6 @@
 				76008FCC24AE452D00B858F5 /* Coordinating.swift */,
 				76008FCE24AE454500B858F5 /* Coordinator.swift */,
 				76008FD024AE455F00B858F5 /* NavigationCoordinator.swift */,
-				76008FC924AE3A5700B858F5 /* NewsCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -162,6 +163,7 @@
 		76008FD224AE472B00B858F5 /* NewsModule */ = {
 			isa = PBXGroup;
 			children = (
+				76DC634724B1DC3400B2B8A5 /* router */,
 				764383B624AF1DA400123764 /* presenter */,
 				76008FEA24AE86F100B858F5 /* interactor */,
 				76008FE524AE77B400B858F5 /* view */,
@@ -214,6 +216,7 @@
 			children = (
 				76008FDE24AE739B00B858F5 /* NewsViewController.swift */,
 				764BA28B24AFBCDA00022837 /* SettingsViewController.swift */,
+				76F8E39124B203E3005D9426 /* UpdateTimeSettingsViewController.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -251,6 +254,14 @@
 				764BA29A24AFD5C500022837 /* NewsSourcesProvider.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		76DC634724B1DC3400B2B8A5 /* router */ = {
+			isa = PBXGroup;
+			children = (
+				76008FC924AE3A5700B858F5 /* NewsCoordinator.swift */,
+			);
+			path = router;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -371,6 +382,7 @@
 				764BA28E24AFBF2F00022837 /* SettingsService.swift in Sources */,
 				764BA29524AFD37200022837 /* CDNewsItem+Ext.swift in Sources */,
 				76008FA724ADD71E00B858F5 /* SceneDelegate.swift in Sources */,
+				76F8E39224B203E3005D9426 /* UpdateTimeSettingsViewController.swift in Sources */,
 				76008FD524AE47D900B858F5 /* NewsItem.swift in Sources */,
 				76008FCF24AE454500B858F5 /* Coordinator.swift in Sources */,
 				764BA29024AFC3F100022837 /* UpdateService.swift in Sources */,

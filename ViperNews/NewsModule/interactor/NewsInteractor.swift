@@ -8,27 +8,33 @@
 
 import Foundation
 
-final class NewsInteractor {
+final class NewsInteractor: NSObject {
 
     var presenter: InteractorToPresenterProtocol?
 
     private let storeProvider: NewsItemsStoreProvider
     private let sourcesProvider: NewsFeedSourceProvidable
-    private let settings = SettingsServiceImpl.shared()
+    @objc private let settings = SettingsServiceImpl.shared()
 
     private var timer: Timer?
+    private var timerObservation: NSKeyValueObservation?
 
     init(source: NewsFeedSourceProvidable = NewsSourcesProvider()) {
         self.sourcesProvider = source
         self.storeProvider = NewsItemsStore()
+        super.init()
+
+        timerObservation = observe(\.settings.feedUpdateTimer, options: [.new]) { [weak self] (_, _) in
+            self?.updateTimer()
+        }
 
         setTimer()
     }
 
     private func setTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: settings.feedUpdateTime,
-                                         repeats: true) { [weak self] (_) in
-            self?.loadNews()
+        timer = Timer.scheduledTimer(withTimeInterval: settings.feedUpdateTimer,
+                                     repeats: true) { [weak self] (_) in
+                                        self?.loadNews()
         }
     }
 
@@ -91,5 +97,11 @@ extension NewsInteractor: PresenterToInteractorProtocol {
 
     func update(newsItem: NewsItem) {
         storeProvider.save(news: [newsItem])
+    }
+
+    func updateTimer() {
+        timer?.invalidate()
+        timer = nil
+        setTimer()
     }
 }

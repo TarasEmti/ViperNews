@@ -48,10 +48,23 @@ extension NewsCoordinator: NewsCoordinatorRouter {
 
     func showSettings() {
         let vc = SettingsViewController()
+        vc.router = self
         show(vc)
+    }
+
+    func showUpdateTimerSettings() {
+        let vc = UpdateTimeSettingsViewController()
+        vc.router = self
+        show(vc)
+    }
+
+    func pop() {
+        pop(animated: true)
     }
 }
 
-protocol NewsCoordinatorRouter {
+protocol NewsCoordinatorRouter: class {
     func showSettings()
+    func showUpdateTimerSettings()
+    func pop()
 }

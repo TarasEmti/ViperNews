@@ -8,19 +8,21 @@
 
 import Foundation
 
-protocol SettigsService: class {
-    var feedUpdateTime: Double { get set }
+@objc protocol SettigsService: class {
+    dynamic var feedUpdateTimer: TimeInterval { get }
+    func setUpdateTimer(time: TimeInterval)
 }
 
-final class SettingsServiceImpl: SettigsService {
+final class SettingsServiceImpl: NSObject, SettigsService {
 
     private enum UserKeys {
         static let feedUpdateTime = "Settings.FeedUpdateTime"
     }
 
     static func shared() -> SettigsService {
-        return SettingsServiceImpl()
+        return singleton
     }
+    private static let singleton = SettingsServiceImpl()
 
     private let userDefaults: UserDefaults
 
@@ -28,12 +30,37 @@ final class SettingsServiceImpl: SettigsService {
         self.userDefaults = userDefaults
     }
 
-    var feedUpdateTime: Double {
+    var feedUpdateTimer: TimeInterval {
         get {
-            return userDefaults.double(forKey: UserKeys.feedUpdateTime)
+            let sec = userDefaults.double(forKey: UserKeys.feedUpdateTime)
+
+            return sec
         }
         set {
+            willChangeValue(for: \.feedUpdateTimer)
             userDefaults.set(newValue, forKey: UserKeys.feedUpdateTime)
+            didChangeValue(for: \.feedUpdateTimer)
         }
+    }
+
+    func setUpdateTimer(time: TimeInterval) {
+        guard let _ = FeedUpdateTimer(rawValue: time) else {
+            assertionFailure("Setting update time value not conforming to FeedUpdateTimer")
+            return
+        }
+        guard time != feedUpdateTimer else {
+            return
+        }
+        feedUpdateTimer = time
+    }
+}
+
+extension SettingsServiceImpl {
+
+    enum FeedUpdateTimer: TimeInterval, CaseIterable {
+        case extraShort = 5
+        case short = 10
+        case medium = 30
+        case long = 60
     }
 }

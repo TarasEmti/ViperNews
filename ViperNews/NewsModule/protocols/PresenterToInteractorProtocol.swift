@@ -9,4 +9,5 @@
 protocol PresenterToInteractorProtocol {
     func fetchNews()
     func update(newsItem: NewsItem)
+    func updateTimer()
 }
