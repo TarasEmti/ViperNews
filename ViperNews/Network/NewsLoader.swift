@@ -14,10 +14,13 @@ protocol NewsLoading {
 
 final class NewsLoader: NewsLoading {
 
+    let source: NewsSource
+
     private let url: URL
 
-    init(urlString: String) {
-        let url = URL(string: urlString)!
+    init(newsSource: NewsSource) {
+        self.source = newsSource
+        let url = URL(string: newsSource.feedUrl)!
         self.url = url
     }
 

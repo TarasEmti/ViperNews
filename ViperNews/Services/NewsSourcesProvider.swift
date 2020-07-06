@@ -8,12 +8,12 @@
 
 protocol NewsFeedSourceProvidable {
     func allFeedSources() -> [NewsSource]
-    func enabledFeedSources() -> [NewsSourceLoading]
+    func enabledFeedSources() -> [NewsSource]
 }
 
 final class NewsSourcesProvider: NewsFeedSourceProvidable {
 
-    private let sources: [NewsSourceLoading] = [
+    private let sources: [NewsSource] = [
         LentaNewsSource(),
         GazetaNewsSource()
     ]
@@ -22,7 +22,7 @@ final class NewsSourcesProvider: NewsFeedSourceProvidable {
         return sources
     }
 
-    func enabledFeedSources() -> [NewsSourceLoading] {
+    func enabledFeedSources() -> [NewsSource] {
         return sources.filter { $0.isEnabled }
     }
 }

@@ -50,14 +50,17 @@ final class NewsInteractor: NSObject {
 
         queue.async(group: group) { [weak self] in
             guard let self = self else { fatalError("NewsInteractor deinited") }
+            let loaders = self.sourcesProvider
+                .enabledFeedSources()
+                .map { NewsLoader(newsSource: $0) }
 
-            self.sourcesProvider.enabledFeedSources().forEach { (source) in
+            loaders.forEach { (loader) in
                 group.enter()
 
-                source.feedLoader.loadFeed { (news, error) in
+                loader.loadFeed { (news, error) in
                     if let error = error {
                         print(error.localizedDescription)
-                        failedSources.append(source)
+                        failedSources.append(loader.source)
                     } else if let news = news, !news.isEmpty {
                         unsortedNews.append(contentsOf: news)
                     }

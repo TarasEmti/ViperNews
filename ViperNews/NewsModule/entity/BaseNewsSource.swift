@@ -16,11 +16,7 @@ import Foundation
     func toggleIsEnabled()
 }
 
-protocol NewsSourceLoading: NewsSource {
-    var feedLoader: NewsLoading { get }
-}
-
-class BaseNewsSource: NSObject, NewsSourceLoading {
+class BaseNewsSource: NSObject, NewsSource {
 
     private lazy var isDisabledKey = "NewsSource.\(String(describing: type(of: self))).isDisabledKey"
 
@@ -30,12 +26,9 @@ class BaseNewsSource: NSObject, NewsSourceLoading {
 
     let name: String
 
-    let feedLoader: NewsLoading
-
     init(feedUrl: String, name: String) {
         self.feedUrl = feedUrl
         self.name = name
-        feedLoader = NewsLoader(urlString: feedUrl)
         super.init()
     }
 
