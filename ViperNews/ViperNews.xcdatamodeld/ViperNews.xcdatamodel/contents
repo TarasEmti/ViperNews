@@ -5,7 +5,7 @@
         <attribute name="details" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="imageUrl" optional="YES" attributeType="URI"/>
-        <attribute name="isUnread" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isUnread" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="sourceName" attributeType="String"/>
         <attribute name="sourceUrl" attributeType="URI"/>
         <attribute name="title" attributeType="String"/>

@@ -37,7 +37,7 @@ extension CDNewsItem {
         sourceName = item.sourceName
         sourceUrl = item.sourceUrl
         date = item.date
-        if !isUnread {
+        if isUnread == false {
             isUnread = false
         } else {
             isUnread = item.isUnread
