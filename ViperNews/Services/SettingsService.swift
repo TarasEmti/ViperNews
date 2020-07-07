@@ -30,9 +30,13 @@ final class SettingsServiceImpl: NSObject, SettigsService {
         self.userDefaults = userDefaults
     }
 
-    var feedUpdateTimer: TimeInterval {
+    private(set) var feedUpdateTimer: TimeInterval {
         get {
             let sec = userDefaults.double(forKey: UserKeys.feedUpdateTime)
+
+            if sec.isZero {
+                return NewsUpdateTimer.short.rawValue
+            }
 
             return sec
         }
@@ -44,11 +48,10 @@ final class SettingsServiceImpl: NSObject, SettigsService {
     }
 
     func setUpdateTimer(time: TimeInterval) {
-        guard let _ = FeedUpdateTimer(rawValue: time) else {
-            assertionFailure("Setting update time value not conforming to FeedUpdateTimer")
-            return
-        }
-        guard time != feedUpdateTimer else {
+        guard
+            let _ = NewsUpdateTimer(rawValue: time),
+            time != feedUpdateTimer else {
+                
             return
         }
         feedUpdateTimer = time
@@ -57,7 +60,7 @@ final class SettingsServiceImpl: NSObject, SettigsService {
 
 extension SettingsServiceImpl {
 
-    enum FeedUpdateTimer: TimeInterval, CaseIterable {
+    enum NewsUpdateTimer: TimeInterval, CaseIterable {
         case extraShort = 5
         case short = 10
         case medium = 30

@@ -37,7 +37,7 @@ final class UpdateService {
         let settings = SettingsServiceImpl.shared()
 
         if !isDefaultsInstalled {
-            let defaultTimer: SettingsServiceImpl.FeedUpdateTimer = .short
+            let defaultTimer: SettingsServiceImpl.NewsUpdateTimer = .short
             settings.setUpdateTimer(time: defaultTimer.rawValue)
 
             isDefaultsInstalled = true

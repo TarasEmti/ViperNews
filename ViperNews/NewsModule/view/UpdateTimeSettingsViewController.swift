@@ -23,7 +23,7 @@ final class UpdateTimeSettingsViewController: UIViewController {
     }()
 
     private let settings = SettingsServiceImpl.shared()
-    private let dataSource = SettingsServiceImpl.FeedUpdateTimer.allCases
+    private let dataSource = SettingsServiceImpl.NewsUpdateTimer.allCases
     private var selectedIndex: IndexPath!
 
     override func viewDidLoad() {

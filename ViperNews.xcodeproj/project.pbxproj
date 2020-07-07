@@ -12,7 +12,6 @@
 		76008FAF24ADD71E00B858F5 /* ViperNews.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 76008FAD24ADD71E00B858F5 /* ViperNews.xcdatamodeld */; };
 		76008FB124ADD72000B858F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76008FB024ADD72000B858F5 /* Assets.xcassets */; };
 		76008FB424ADD72000B858F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76008FB224ADD72000B858F5 /* LaunchScreen.storyboard */; };
-		76008FBF24ADD72000B858F5 /* ViperNewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76008FBE24ADD72000B858F5 /* ViperNewsTests.swift */; };
 		76008FCA24AE3A5700B858F5 /* NewsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76008FC924AE3A5700B858F5 /* NewsCoordinator.swift */; };
 		76008FCD24AE452D00B858F5 /* Coordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76008FCC24AE452D00B858F5 /* Coordinating.swift */; };
 		76008FCF24AE454500B858F5 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76008FCE24AE454500B858F5 /* Coordinator.swift */; };
@@ -26,6 +25,8 @@
 		76008FE924AE79BF00B858F5 /* ViewToPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76008FE824AE79BF00B858F5 /* ViewToPresenterProtocol.swift */; };
 		76008FEC24AE86FD00B858F5 /* NewsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76008FEB24AE86FD00B858F5 /* NewsInteractor.swift */; };
 		7643317A24B465260046BED6 /* UpdateServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7643317924B465260046BED6 /* UpdateServiceTest.swift */; };
+		7643317C24B473FA0046BED6 /* SettingsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7643317B24B473FA0046BED6 /* SettingsServiceTests.swift */; };
+		7643318E24B4748B0046BED6 /* NewsControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7643318D24B4748B0046BED6 /* NewsControllerTests.swift */; };
 		764383B824AF1DBC00123764 /* NewsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764383B724AF1DBC00123764 /* NewsPresenter.swift */; };
 		764BA28A24AF9F0E00022837 /* NewsItemsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764BA28924AF9F0E00022837 /* NewsItemsStore.swift */; };
 		764BA28C24AFBCDA00022837 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764BA28B24AFBCDA00022837 /* SettingsViewController.swift */; };
@@ -48,6 +49,13 @@
 			remoteGlobalIDString = 76008FA024ADD71E00B858F5;
 			remoteInfo = ViperNews;
 		};
+		7643318824B474730046BED6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 76008F9924ADD71E00B858F5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76008FA024ADD71E00B858F5;
+			remoteInfo = ViperNews;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -59,7 +67,6 @@
 		76008FB324ADD72000B858F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		76008FB524ADD72000B858F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76008FBA24ADD72000B858F5 /* ViperNewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViperNewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		76008FBE24ADD72000B858F5 /* ViperNewsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViperNewsTests.swift; sourceTree = "<group>"; };
 		76008FC024ADD72000B858F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76008FC924AE3A5700B858F5 /* NewsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCoordinator.swift; sourceTree = "<group>"; };
 		76008FCC24AE452D00B858F5 /* Coordinating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinating.swift; sourceTree = "<group>"; };
@@ -74,6 +81,10 @@
 		76008FE824AE79BF00B858F5 /* ViewToPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewToPresenterProtocol.swift; sourceTree = "<group>"; };
 		76008FEB24AE86FD00B858F5 /* NewsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsInteractor.swift; sourceTree = "<group>"; };
 		7643317924B465260046BED6 /* UpdateServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateServiceTest.swift; sourceTree = "<group>"; };
+		7643317B24B473FA0046BED6 /* SettingsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsServiceTests.swift; sourceTree = "<group>"; };
+		7643318324B474730046BED6 /* ViperNewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViperNewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7643318724B474730046BED6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7643318D24B4748B0046BED6 /* NewsControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsControllerTests.swift; sourceTree = "<group>"; };
 		764383B724AF1DBC00123764 /* NewsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPresenter.swift; sourceTree = "<group>"; };
 		764BA28924AF9F0E00022837 /* NewsItemsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemsStore.swift; sourceTree = "<group>"; };
 		764BA28B24AFBCDA00022837 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +114,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7643318024B474730046BED6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -111,6 +129,7 @@
 			children = (
 				76008FA324ADD71E00B858F5 /* ViperNews */,
 				76008FBD24ADD72000B858F5 /* ViperNewsTests */,
+				7643318424B474730046BED6 /* ViperNewsUITests */,
 				76008FA224ADD71E00B858F5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -120,6 +139,7 @@
 			children = (
 				76008FA124ADD71E00B858F5 /* ViperNews.app */,
 				76008FBA24ADD72000B858F5 /* ViperNewsTests.xctest */,
+				7643318324B474730046BED6 /* ViperNewsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -146,8 +166,8 @@
 		76008FBD24ADD72000B858F5 /* ViperNewsTests */ = {
 			isa = PBXGroup;
 			children = (
+				7643317B24B473FA0046BED6 /* SettingsServiceTests.swift */,
 				7643317924B465260046BED6 /* UpdateServiceTest.swift */,
-				76008FBE24ADD72000B858F5 /* ViperNewsTests.swift */,
 				76008FC024ADD72000B858F5 /* Info.plist */,
 			);
 			path = ViperNewsTests;
@@ -232,6 +252,15 @@
 			path = interactor;
 			sourceTree = "<group>";
 		};
+		7643318424B474730046BED6 /* ViperNewsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				7643318D24B4748B0046BED6 /* NewsControllerTests.swift */,
+				7643318724B474730046BED6 /* Info.plist */,
+			);
+			path = ViperNewsUITests;
+			sourceTree = "<group>";
+		};
 		764383B624AF1DA400123764 /* presenter */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,6 +334,24 @@
 			productReference = 76008FBA24ADD72000B858F5 /* ViperNewsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		7643318224B474730046BED6 /* ViperNewsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7643318A24B474730046BED6 /* Build configuration list for PBXNativeTarget "ViperNewsUITests" */;
+			buildPhases = (
+				7643317F24B474730046BED6 /* Sources */,
+				7643318024B474730046BED6 /* Frameworks */,
+				7643318124B474730046BED6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7643318924B474730046BED6 /* PBXTargetDependency */,
+			);
+			name = ViperNewsUITests;
+			productName = ViperNewsUITests;
+			productReference = 7643318324B474730046BED6 /* ViperNewsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -319,6 +366,10 @@
 						CreatedOnToolsVersion = 11.5;
 					};
 					76008FB924ADD72000B858F5 = {
+						CreatedOnToolsVersion = 11.5;
+						TestTargetID = 76008FA024ADD71E00B858F5;
+					};
+					7643318224B474730046BED6 = {
 						CreatedOnToolsVersion = 11.5;
 						TestTargetID = 76008FA024ADD71E00B858F5;
 					};
@@ -339,6 +390,7 @@
 			targets = (
 				76008FA024ADD71E00B858F5 /* ViperNews */,
 				76008FB924ADD72000B858F5 /* ViperNewsTests */,
+				7643318224B474730046BED6 /* ViperNewsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -354,6 +406,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		76008FB824ADD72000B858F5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7643318124B474730046BED6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -401,8 +460,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7643317C24B473FA0046BED6 /* SettingsServiceTests.swift in Sources */,
 				7643317A24B465260046BED6 /* UpdateServiceTest.swift in Sources */,
-				76008FBF24ADD72000B858F5 /* ViperNewsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7643317F24B474730046BED6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7643318E24B4748B0046BED6 /* NewsControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +480,11 @@
 			isa = PBXTargetDependency;
 			target = 76008FA024ADD71E00B858F5 /* ViperNews */;
 			targetProxy = 76008FBB24ADD72000B858F5 /* PBXContainerItemProxy */;
+		};
+		7643318924B474730046BED6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76008FA024ADD71E00B858F5 /* ViperNews */;
+			targetProxy = 7643318824B474730046BED6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -622,6 +694,44 @@
 			};
 			name = Release;
 		};
+		7643318B24B474730046BED6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D82HCVQN26;
+				INFOPLIST_FILE = ViperNewsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = taras.ViperNewsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ViperNews;
+			};
+			name = Debug;
+		};
+		7643318C24B474730046BED6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D82HCVQN26;
+				INFOPLIST_FILE = ViperNewsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = taras.ViperNewsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ViperNews;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -648,6 +758,15 @@
 			buildConfigurations = (
 				76008FC724ADD72000B858F5 /* Debug */,
 				76008FC824ADD72000B858F5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7643318A24B474730046BED6 /* Build configuration list for PBXNativeTarget "ViperNewsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7643318B24B474730046BED6 /* Debug */,
+				7643318C24B474730046BED6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
