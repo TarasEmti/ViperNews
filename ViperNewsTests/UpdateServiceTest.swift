@@ -18,8 +18,8 @@ class UpdateServiceTest: XCTestCase {
         override func set(_ value: Bool, forKey defaultName: String) {
             if defaultName == "Update.DefaultSettings" {
                 changesCounter += 1
-                XCTAssert(value, "Flag shuld fe true")
             }
+            super.set(value, forKey: defaultName)
         }
     }
 
@@ -32,16 +32,24 @@ class UpdateServiceTest: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        mockDefaults.removeObject(forKey: "UpdateServiceTest")
+        mockDefaults.set(false, forKey: "Update.DefaultSettings")
         mockDefaults = nil
         sut = nil
     }
 
-    func testChange() throws {
+    func testFirstCall() throws {
         XCTAssertEqual(mockDefaults.changesCounter, 0, "There should be no changes before checking updates")
 
         sut.checkUpdates()
 
         XCTAssertEqual(mockDefaults.changesCounter, 1, "Defaults should be implemented")
+    }
+
+    func testMultipleCalls() {
+
+        sut.checkUpdates()
+        sut.checkUpdates()
+
+        XCTAssertEqual(mockDefaults.changesCounter, 1, "Defaults should be implemented only once")
     }
 }

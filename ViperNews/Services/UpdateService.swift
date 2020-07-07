@@ -34,13 +34,13 @@ final class UpdateService {
     }
 
     private func setDefaultSettingsIfNeeded() {
-        defer { isDefaultsInstalled = true }
-
         let settings = SettingsServiceImpl.shared()
 
         if !isDefaultsInstalled {
             let defaultTimer: SettingsServiceImpl.FeedUpdateTimer = .short
             settings.setUpdateTimer(time: defaultTimer.rawValue)
+
+            isDefaultsInstalled = true
         }
     }
 }
